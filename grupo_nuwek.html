@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupo Nuwek</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f2f2f0; --bg2:#ffffff; --bg3:#f7f7f5; --bg4:#ebebea;
+  --border:rgba(0,0,0,0.07); --border2:rgba(0,0,0,0.13);
+  --text:#1a1a22; --text2:#6b6b80; --text3:#a0a0b0;
+  --accent:#4f46e5; --accent2:#6c63ff;
+  --green:#16a34a; --yellow:#ca8a04; --red:#dc2626;
+  --green-bg:#f0fdf4; --yellow-bg:#fefce8; --red-bg:#fef2f2;
+  --green-border:#bbf7d0; --yellow-border:#fde68a; --red-border:#fecaca;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* PORTADA */
+#portada{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#fff;}
+#portada::before{content:'';position:absolute;top:-300px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(79,70,229,0.06) 0%,transparent 65%);pointer-events:none;}
+.portada-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.portada-inner{position:relative;text-align:center;z-index:1;padding:2rem;}
+.logo-mark{display:inline-flex;align-items:center;gap:12px;margin-bottom:2.5rem;}
+.logo-icon{width:48px;height:48px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;letter-spacing:-1px;}
+.logo-text{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.5px;color:var(--text);}
+.logo-text span{color:var(--accent);}
+h1.portada-title{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,6vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-2px;color:var(--text);margin-bottom:1rem;}
+h1.portada-title em{font-style:normal;color:var(--accent);}
+.portada-desc{font-size:1rem;color:var(--text2);max-width:420px;margin:0 auto 3rem;line-height:1.7;font-weight:300;}
+.portada-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-portada{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:20px 28px;border-radius:14px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;transition:all 0.2s;min-width:160px;}
+.btn-portada:hover{border-color:var(--accent);background:#fff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,0.1);}
+.btn-portada.primary{border-color:var(--accent);background:rgba(79,70,229,0.06);}
+.btn-portada .btn-label{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);}
+.btn-portada.primary .btn-label{color:var(--accent);}
+.btn-portada .btn-sub{font-size:0.75rem;color:var(--text3);}
+
+/* APP */
+#app{display:none;min-height:100vh;}
+.app-sidebar{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;padding:24px 0;}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:14px;}
+.sidebar-logo .logo-icon{width:30px;height:30px;font-size:12px;border-radius:8px;}
+.sidebar-logo .logo-text{font-size:14px;}
+.mode-badge{padding:0 20px;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:8px;}
+.sidebar-nav{flex:1;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:0.875rem;color:var(--text2);transition:all 0.15s;border-left:2px solid transparent;}
+.nav-item:hover{color:var(--text);background:var(--bg3);}
+.nav-item.active{color:var(--accent);background:rgba(79,70,229,0.05);border-left-color:var(--accent);font-weight:500;}
+.nav-icon{font-size:15px;}
+.sidebar-back{padding:16px 20px 0;border-top:1px solid var(--border);}
+.back-btn{font-size:0.8rem;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:6px;transition:color 0.15s;}
+.back-btn:hover{color:var(--text2);}
+.app-main{margin-left:220px;min-height:100vh;padding:36px 40px;}
+.section{display:none;}.section.active{display:block;}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.topbar-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;}
+.topbar-date{font-size:0.8rem;color:var(--text3);}
+
+/* SEMÁFORO */
+.semaforo-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;}
+.semaforo-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;}
+.semaforo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.semaforo-card.verde::before{background:var(--green);}
+.semaforo-card.amarillo::before{background:var(--yellow);}
+.semaforo-card.rojo::before{background:var(--red);}
+.semaforo-label{font-size:0.72rem;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;}
+.semaforo-card.verde .semaforo-label{color:var(--green);}
+.semaforo-card.amarillo .semaforo-label{color:var(--yellow);}
+.semaforo-card.rojo .semaforo-label{color:var(--red);}
+.semaforo-num{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;line-height:1;letter-spacing:-2px;}
+.semaforo-card.verde .semaforo-num{color:var(--green);}
+.semaforo-card.amarillo .semaforo-num{color:var(--yellow);}
+.semaforo-card.rojo .semaforo-num{color:var(--red);}
+.semaforo-desc{font-size:0.78rem;color:var(--text3);}
+.semaforo-bar-wrap{height:5px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+.semaforo-bar{height:100%;border-radius:99px;transition:width 0.7s ease;}
+.semaforo-card.verde .semaforo-bar{background:var(--green);}
+.semaforo-card.amarillo .semaforo-bar{background:var(--yellow);}
+.semaforo-card.rojo .semaforo-bar{background:var(--red);}
+
+/* UTILS */
+.block-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.block-title{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:0.7rem;font-weight:600;}
+.badge-hoy{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border);}
+.badge-vencida{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.badge-hecha{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.marca-chip{display:inline-block;padding:2px 8px;background:var(--bg4);border-radius:6px;font-size:0.72rem;color:var(--text2);font-weight:500;}
+.dot-verde{background:var(--green);}
+.dot-amarillo{background:var(--yellow);}
+.dot-rojo{background:var(--red);}
+
+/* GRID MARCAS */
+.marcas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:40px;}
+.marca-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;cursor:pointer;transition:all 0.18s;}
+.marca-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 16px rgba(79,70,229,0.08);}
+.marca-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.marca-initial{width:34px;height:34px;border-radius:9px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--text2);}
+.marca-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;}
+.marca-name{font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;margin-bottom:8px;line-height:1.3;}
+.marca-mini-bar{display:flex;gap:2px;height:4px;border-radius:99px;overflow:hidden;margin-bottom:8px;}
+.mini-seg{border-radius:99px;}
+.marca-counts{display:flex;gap:8px;flex-wrap:wrap;}
+.count-item{font-size:0.68rem;display:flex;align-items:center;gap:3px;color:var(--text3);}
+.count-dot{width:5px;height:5px;border-radius:50%;}
+
+/* TABLA ACTIVIDADES DASHBOARD */
+.filtros-bar{display:flex;gap:8px;flex-wrap:wrap;}
+.filtro-btn{padding:6px 14px;border-radius:99px;border:1px solid var(--border2);background:var(--bg2);font-size:0.78rem;color:var(--text2);cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.filtro-btn:hover{border-color:var(--accent);color:var(--accent);}
+.filtro-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.tabla-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.tabla-actividades{width:100%;border-collapse:collapse;}
+.tabla-actividades thead tr{border-bottom:1px solid var(--border);}
+.tabla-actividades th{padding:12px 16px;text-align:left;font-size:0.7rem;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text3);}
+.tabla-actividades td{padding:13px 16px;font-size:0.82rem;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle;}
+.tabla-actividades tr:last-child td{border-bottom:none;}
+.tabla-actividades tbody tr:hover{background:var(--bg3);}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:0.85rem;}
+
+/* ══ VISTA MARCA ══ */
+.back-marca-btn{background:none;border:none;cursor:pointer;font-size:0.8rem;color:var(--text3);padding:0 0 10px;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif;transition:color 0.15s;}
+.back-marca-btn:hover{color:var(--accent);}
+.marca-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;}
+.marca-header-info{display:flex;align-items:center;gap:16px;}
+.marca-big-initial{width:52px;height:52px;border-radius:14px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;flex-shrink:0;}
+.marca-big-name{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;}
+.marca-etapa-row{display:flex;align-items:center;gap:6px;margin-top:5px;}
+.etapa-badge{display:inline-block;padding:3px 10px;background:rgba(79,70,229,0.08);color:var(--accent);border-radius:99px;font-size:0.72rem;font-weight:600;}
+
+/* DOCS */
+.docs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px;}
+.doc-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;transition:all 0.18s;}
+.doc-card.tiene-link{cursor:pointer;}
+.doc-card.tiene-link:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,70,229,0.08);}
+.doc-top{display:flex;align-items:center;justify-content:space-between;}
+.doc-icon{font-size:1.1rem;}
+.doc-ext{font-size:0.65rem;color:var(--accent);font-weight:500;}
+.doc-ext-off{font-size:0.65rem;color:var(--text3);}
+.doc-name{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;line-height:1.3;}
+.doc-ok{font-size:0.68rem;color:var(--green);font-weight:600;}
+.doc-off{font-size:0.68rem;color:var(--text3);}
+
+/* ACORDEÓN SECCIONES */
+.acordeon-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.acord-bloque{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color 0.2s;}
+.acord-bloque.open{border-color:var(--accent);}
+.acord-trigger{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;transition:background 0.15s;user-select:none;}
+.acord-trigger:hover{background:var(--bg3);}
+.acord-trigger-left{display:flex;align-items:center;gap:14px;}
+.acord-icon{width:36px;height:36px;border-radius:10px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.2s;}
+.acord-bloque.open .acord-icon{background:rgba(79,70,229,0.1);}
+.acord-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;}
+.acord-sub{font-size:0.75rem;color:var(--text3);margin-top:2px;}
+.acord-right{display:flex;align-items:center;gap:10px;}
+.acord-tag{font-size:0.68rem;padding:3px 9px;border-radius:99px;background:var(--bg4);color:var(--text3);font-weight:500;}
+.acord-bloque.open .acord-tag{background:rgba(79,70,229,0.08);color:var(--accent);}
+.acord-arrow{font-size:0.75rem;color:var(--text3);transition:transform 0.25s;}
+.acord-bloque.open .acord-arrow{transform:rotate(180deg);color:var(--accent);}
+.acord-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.3s ease;}
+.acord-bloque.open .acord-body{grid-template-rows:1fr;}
+.acord-inner{overflow:hidden;}
+.acord-content{padding:0 22px 22px;border-top:1px solid var(--border);}
+.acord-content-pad{padding-top:18px;}
+
+/* KPI GRID */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.kpi-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.kpi-label{font-size:0.68rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.kpi-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-1px;}
+.kpi-delta{font-size:0.72rem;margin-top:4px;}
+.delta-pos{color:var(--green);}
+.delta-neg{color:var(--red);}
+.kpi-plat{font-size:0.65rem;color:var(--text3);margin-top:2px;}
+
+/* WBR TABS */
+.wbr-tabs-inner{display:flex;gap:4px;background:var(--bg4);padding:4px;border-radius:10px;margin-bottom:16px;width:fit-content;}
+.wbr-tab{padding:6px 16px;border-radius:7px;border:none;background:transparent;font-size:0.8rem;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;font-weight:500;}
+.wbr-tab.active{background:var(--bg2);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.wbr-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;}
+.wbr-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.wbr-table thead tr{background:var(--bg4);border-bottom:1px solid var(--border);}
+.wbr-table th{padding:10px 14px;text-align:right;font-size:0.65rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
+.wbr-table th:first-child{text-align:left;}
+.wbr-table td{padding:10px 14px;text-align:right;border-bottom:1px solid var(--border);color:var(--text);}
+.wbr-table td:first-child{text-align:left;font-weight:600;color:var(--text2);}
+.wbr-table tr:last-child td{border-bottom:none;background:var(--bg4);font-weight:700;}
+.wbr-table tbody tr:hover{background:var(--bg3);}
+.wbr-no-data{text-align:center;padding:32px;color:var(--text3);font-size:0.85rem;}
+
+/* TABLA ACTIVIDADES MARCA */
+.act-filtros{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.act-select{padding:6px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--bg2);font-size:0.78rem;color:var(--text2);font-family:'DM Sans',sans-serif;cursor:pointer;}
+.act-select:focus{outline:none;border-color:var(--accent);}
+.add-act-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border2);background:var(--bg2);font-size:0.78rem;color:var(--accent);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;margin-left:auto;}
+.add-act-btn:hover{background:rgba(79,70,229,0.06);}
+.act-tabla-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;}
+.act-tabla{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.act-tabla thead tr{background:var(--bg4);border-bottom:1px solid var(--border);}
+.act-tabla th{padding:10px 14px;text-align:left;font-size:0.65rem;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
+.act-tabla td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.act-tabla tr:last-child td{border-bottom:none;}
+.act-tabla tbody tr:hover{background:var(--bg3);}
+.check-box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+.check-box.checked{background:var(--green);border-color:var(--green);}
+.check-box.checked::after{content:'✓';font-size:9px;color:#fff;font-weight:700;}
+.estado-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
+.etapa-pill{display:inline-block;padding:2px 8px;border-radius:5px;font-size:0.68rem;font-weight:600;background:rgba(79,70,229,0.08);color:var(--accent);}
+.fecha-chip{font-size:0.72rem;padding:2px 7px;border-radius:5px;}
+.fecha-vencida{background:var(--red-bg);color:var(--red);}
+.fecha-hoy{background:var(--yellow-bg);color:var(--yellow);}
+.fecha-ok{color:var(--text3);}
+.edit-btn{background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--text3);padding:2px 6px;border-radius:4px;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.edit-btn:hover{background:var(--bg4);color:var(--accent);}
+
+/* SATISFACCION */
+.satis-score{display:flex;align-items:baseline;gap:6px;margin-bottom:10px;}
+.score-num{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--accent);}
+.score-max{font-size:1rem;color:var(--text3);}
+.score-stars{font-size:1.3rem;letter-spacing:2px;margin-bottom:10px;}
+.score-comment{font-size:0.8rem;color:var(--text2);font-style:italic;line-height:1.6;padding:12px;background:var(--bg3);border-radius:8px;border-left:3px solid rgba(79,70,229,0.3);}
+.score-meta{font-size:0.7rem;color:var(--text3);margin-top:8px;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--bg2);border-radius:16px;padding:28px;width:520px;max-width:90vw;transform:translateY(12px);transition:transform 0.2s;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:20px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:0.72rem;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:var(--text3);}
+input[type=text],input[type=date],select,textarea{padding:9px 12px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-size:0.85rem;color:var(--text);font-family:'DM Sans',sans-serif;width:100%;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+textarea{resize:vertical;min-height:70px;}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+.btn-cancel{padding:8px 18px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);}
+.btn-save{padding:8px 18px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
+
+.edit-doc-btn{font-size:0.75rem;cursor:pointer;opacity:0.4;transition:opacity 0.15s;user-select:none;}
+.edit-doc-btn:hover{opacity:1;}
+
+/* ANIMACIONES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.anim{animation:fadeUp 0.35s ease forwards;opacity:0;}
+.d1{animation-delay:0.04s;}.d2{animation-delay:0.09s;}.d3{animation-delay:0.14s;}.d4{animation-delay:0.19s;}.d5{animation-delay:0.24s;}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div id="portada">
+  <div class="portada-grid"></div>
+  <div class="portada-inner">
+    <div class="logo-mark">
+      <div class="logo-icon">GN</div>
+      <div class="logo-text">Grupo <span>Nuwek</span></div>
+    </div>
+    <h1 class="portada-title">Gestión<br><em>Operativa</em></h1>
+    <p class="portada-desc">Seguimiento de marcas, actividades y reportes de desempeño para el equipo Nuwek.</p>
+    <div class="portada-buttons">
+      <div class="btn-portada primary" onclick="irA('seguimientos')">
+        <span class="btn-label">Marketing</span>
+        <span class="btn-sub">Seguimientos operativos</span>
+      </div>
+      <div class="btn-portada" onclick="irA('consultoria')">
+        <span class="btn-label">Consultoría</span>
+        <span class="btn-sub">Proyectos y clientes</span>
+      </div>
+      <div class="btn-portada" onclick="irA('capacitaciones')">
+        <span class="btn-label">Capacitaciones</span>
+        <span class="btn-sub">Formación del equipo</span>
+      </div>
+    </div>
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div id="portada-clock" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:600;color:var(--text2);letter-spacing:-0.3px;"></div>
+      <div style="font-size:0.75rem;color:var(--text3);font-style:italic;letter-spacing:0.3px;">Deadlines are a real thing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <aside class="app-sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">GN</div>
+      <div class="logo-text">Grupo <span>Nuwek</span></div>
+    </div>
+    <span class="mode-badge" id="mode-badge">Marketing</span>
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    <div class="sidebar-back">
+      <div class="back-btn" onclick="volverPortada()">← Inicio</div>
+    </div>
+  </aside>
+
+  <main class="app-main">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="sec-dashboard">
+      <div class="topbar anim d1">
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-date" id="fecha-hoy"></div>
+        </div>
+        <div class="topbar-date" id="total-acts"></div>
+      </div>
+      <div class="semaforo-row anim d2">
+        <div class="semaforo-card verde">
+          <div class="semaforo-label">✓ Realizadas a tiempo</div>
+          <div class="semaforo-num" id="num-verde">—</div>
+          <div class="semaforo-desc">completadas esta semana</div>
+          <div class="semaforo-bar-wrap"><div class="semaforo-bar" id="bar-verde" style="width:0%"></div></div>
+        </div>
+        <div class="semaforo-card amarillo">
+          <div class="semaforo-label">⏳ Para hoy</div>
+          <div class="semaforo-num" id="num-amarillo">—</div>
+          <div class="semaforo-desc">vencen hoy</div>
+          <div class="semaforo-bar-wrap"><div class="semaforo-bar" id="bar-amarillo" style="width:0%"></div></div>
+        </div>
+        <div class="semaforo-card rojo">
+          <div class="semaforo-label">✗ Vencidas sin atender</div>
+          <div class="semaforo-num" id="num-rojo">—</div>
+          <div class="semaforo-desc">pasadas sin completar</div>
+          <div class="semaforo-bar-wrap"><div class="semaforo-bar" id="bar-rojo" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="acord-bloque open anim d3" id="acord-dashboard">
+        <div class="acord-trigger" onclick="this.closest('.acord-bloque').classList.toggle('open')">
+          <div class="acord-trigger-left">
+            <div style="font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);">CONTROL DE ACTIVIDADES</div>
+          </div>
+          <div class="acord-right">
+            <div class="filtros-bar" onclick="event.stopPropagation()">
+              <button class="filtro-btn active" onclick="setFiltro('vencidas',this)">Vencidas</button>
+              <button class="filtro-btn" onclick="setFiltro('hoy',this)">Por hacer hoy</button>
+              <button class="filtro-btn" onclick="setFiltro('hechas',this)">Realizadas</button>
+              <button class="filtro-btn" onclick="setFiltro('futuras',this)">Por realizar</button>
+            </div>
+            <span class="acord-arrow">▾</span>
+          </div>
+        </div>
+        <div class="acord-body">
+          <div class="acord-inner">
+            <div class="acord-content" style="padding:0;">
+              <div class="tabla-wrap" style="border-radius:0;border-left:none;border-right:none;border-bottom:none;">
+                <table class="tabla-actividades">
+                  <thead><tr>
+                    <th>Estado</th><th>Marca</th><th>Actividad</th><th>Responsable</th><th>Fecha</th>
+                  </tr></thead>
+                  <tbody id="tabla-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block-header anim d4" style="margin-top:32px;">
+        <div class="block-title">Marcas activas</div>
+      </div>
+      <div class="marcas-grid anim d5" id="marcas-grid"></div>
+    </div>
+
+    <!-- ACTIVIDADES -->
+    <div class="section" id="sec-actividades">
+      <div class="topbar"><div class="topbar-title">Actividades</div></div>
+      <p style="color:var(--text3);font-size:0.9rem;">Próxima sección.</p>
+    </div>
+
+    <!-- WBR POR MARCA -->
+    <div class="section" id="sec-wbr">
+
+      <div class="anim d1">
+        <button class="back-marca-btn" onclick="navegarSeccion('sec-dashboard')">← Todas las marcas</button>
+        <div class="marca-header">
+          <div class="marca-header-info">
+            <div class="marca-big-initial" id="wbr-initial">TW</div>
+            <div>
+              <div class="marca-big-name" id="wbr-nombre">Travel World</div>
+              <div class="marca-etapa-row">
+                <span class="etapa-badge" id="wbr-etapa">1er Periodo</span>
+                <span class="marca-dot" id="wbr-dot" style="width:9px;height:9px;border-radius:50%;margin-left:8px;display:inline-block;"></span>
+                <span style="font-size:0.78rem;color:var(--text3);margin-left:4px;" id="wbr-estado-txt"></span>
+              </div>
+            </div>
+          </div>
+          <div class="topbar-date" id="wbr-fecha"></div>
+        </div>
+      </div>
+
+      <!-- Documentos clave: 5 tarjetas -->
+      <div class="block-header anim d2"><div class="block-title">Documentos clave</div></div>
+      <div class="docs-grid anim d2" id="wbr-docs"></div>
+
+      <!-- ACORDEÓN -->
+      <div class="acordeon-wrap anim d3" id="acordeon-wrap"></div>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL ACTIVIDAD (contenido dinámico) -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" style="width:640px;max-height:88vh;overflow-y:auto;" id="modal-inner">
+  </div>
+</div>
+
+<script>
+const MARCAS = ['Carvsa','Printbox','Servo Motores','Clínica del Cerebro','Travel World','Coros','PREPA','POC','Educación Sin Lagunas','Quali Suministros','Argos Seguridad','FAM','Estufón de la Abuela','GeoCentra','PQC'];
+
+// area: 'comercial' | 'operativa'
+// req: true = tiene "a" (requerida por default) | false = sin "a" (No requerida por default)
+const ETAPAS_CONFIG = [
+  // ── COMERCIAL ──
+  { area:'comercial', nombre:'Setteo', actividades:[
+    { hito:'Nutrición de dolor',      req:true  },
+    { hito:'Closer',                  req:true  },
+    { hito:'Nutrición de aterrizaje', req:true  },
+  ]},
+  { area:'comercial', nombre:'Seguimiento', actividades:[
+    { hito:'Agendar brief',           req:true  },
+  ]},
+  { area:'comercial', nombre:'Onboarding Comercial', actividades:[
+    { hito:'Cotización',                                        req:false },
+    { hito:'Brief comercial',                                   req:false },
+    { hito:'Brief con cliente',                                 req:false },
+    { hito:'ADN Comercial',                                     req:false },
+    { hito:'Aterrizaje de ADN',                                 req:false },
+  ]},
+  { area:'comercial', nombre:'Luz Amarilla', actividades:[
+    { hito:'Plan de trabajo y requerimientos',                  req:true  },
+    { hito:'Correo de bienvenida y presentación',               req:true  },
+    { hito:'Kit administrativo (contrato-cotización-plan)',      req:true  },
+    { hito:'Onboarding visual',                                 req:true  },
+    { hito:'Nutrición de logros',                               req:true  },
+    { hito:'Confirmación de correo',                            req:true  },
+    { hito:'Crear carpeta en Drive',                            req:true  },
+  ]},
+  { area:'comercial', nombre:'Luz Verde', actividades:[
+    { hito:'Contrato completo',                                 req:true  },
+    { hito:'Coordinar firmas',                                  req:true  },
+    { hito:'Cobro',                                             req:true  },
+    { hito:'Confirmación de cita',                              req:true  },
+  ]},
+  // ── OPERATIVA ──
+  { area:'operativa', nombre:'Arranque Operativo', actividades:[
+    { hito:'Brief interno (contexto previo)',                    req:true  },
+    { hito:'Creación de grupo',                                  req:true  },
+    { hito:'Kit de bienvenida',                                  req:true  },
+  ]},
+  { area:'operativa', nombre:'Onboarding', actividades:[
+    { hito:'Conexiones, creación de perfiles y cuentas pub.',    req:true  },
+    { hito:'Onboarding Contra Brief',                            req:true  },
+    { hito:'Validación con el cliente',                          req:true  },
+    { hito:'Presentación Kick Off',                              req:true  },
+    { hito:'Kick off Estratégico',                               req:true  },
+  ]},
+  { area:'operativa', nombre:'Estrategia Digital (planeación)', actividades:[
+    { hito:'Research',                                           req:false },
+    { hito:'Estrategia digital y definición de KPIs',            req:false },
+    { hito:'Estrategias para Funnels',                           req:false },
+    { hito:'Moodboard (Directriz visual)',                        req:true  },
+    { hito:'Plan de comunicación',                               req:true  },
+    { hito:'Presentación de Estrategia',                         req:false },
+    { hito:'Validación con el cliente',                          req:true  },
+  ]},
+  { area:'operativa', nombre:'Estrategia Digital (ejecución)', actividades:[
+    { hito:'Kick off Creativo',                                  req:true  },
+    { hito:'Guía de estilo',                                     req:false },
+    { hito:'Lineamientos de ads',                                req:true  },
+    { hito:'Parrilla de contenidos (Copys)',                     req:false },
+    { hito:'Validación con el cliente',                          req:true  },
+  ]},
+  { area:'operativa', nombre:'Levantamientos', actividades:[
+    { hito:'Pre producción audiovisual (escaletas)',              req:false },
+    { hito:'Producción audiovisual (agenda y levantamiento)',     req:false },
+    { hito:'Post producción audiovisuales',                      req:true  },
+    { hito:'Presentación de parrilla de contenidos (Visuales)',  req:false },
+    { hito:'Validación de contenidos',                           req:true  },
+  ]},
+  { area:'operativa', nombre:'Implementación', actividades:[
+    { hito:'Implementación CRM Básico y gratuito Nuwek',         req:true  },
+    { hito:'Desarrollo landing page',                            req:false },
+    { hito:'Desarrollo página web',                              req:false },
+    { hito:'Creación y optimización Google My Business',         req:false },
+    { hito:'Análisis y elección CRM externo',                    req:false },
+    { hito:'Automatizaciones (Manychat)',                        req:false },
+    { hito:'Validaciones de implementaciones',                   req:true  },
+  ]},
+  { area:'operativa', nombre:'Lanzamiento', actividades:[
+    { hito:'Lanzamientos',                                       req:true  },
+    { hito:'Creación de tableros de KPIs (SEM y Orgánico)',      req:true  },
+  ]},
+  { area:'operativa', nombre:'1er Periodo', actividades:[
+    { hito:'Reportes de KPIs (SEM y Orgánico)',                  req:true  },
+    { hito:'RES - Reporte de alcances',                          req:true  },
+    { hito:'Historial de mejoras (RIC)',                         req:false },
+    { hito:'Scorecard mensuales',                                req:true  },
+    { hito:'REM - Avances sobre estrategia',                     req:true  },
+  ]},
+  { area:'operativa', nombre:'2do Periodo', actividades:[
+    { hito:'Parrilla de contenidos continuación',                req:false },
+    { hito:'Re-lanzamientos',                                    req:false },
+    { hito:'Reportes de KPIs (SEM y SEO)',                       req:true  },
+    { hito:'RES - Reporte de alcances',                          req:true  },
+    { hito:'Historial de mejoras',                               req:false },
+    { hito:'Scorecard mensuales',                                req:true  },
+    { hito:'REM - Avances sobre estrategia',                     req:true  },
+  ]},
+  { area:'operativa', nombre:'3er Periodo', actividades:[
+    { hito:'Parrilla de contenidos continuación',                req:false },
+    { hito:'Re-lanzamientos',                                    req:false },
+    { hito:'Reportes de KPIs (SEM y SEO)',                       req:true  },
+    { hito:'RES - Reporte de alcances',                          req:true  },
+    { hito:'Historial de mejoras',                               req:false },
+    { hito:'Scorecard mensuales',                                req:true  },
+    { hito:'RET - Avances sobre estrategia y continuidad',       req:true  },
+  ]},
+];
+
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const RESPONSABLES = ['Ana López','Luis Herrera','Pedro Ramos','Sofía Cruz','Carlos Mendez'];
+const PARTICIPANTES = ['Ana López','Luis Herrera','Pedro Ramos','Sofía Cruz','Carlos Mendez','Marco Nuwek','Diana Nuwek'];
+const ESTADOS_ACT = ['Planeada','En proceso','No requerida','Hecha','Cancelada'];
+const DOCS_CLAVE = [
+  {key:'adn',   icon:'🧬', nombre:'ADN Comercial'},
+  {key:'plan',  icon:'📋', nombre:'Plan de marca'},
+  {key:'cont',  icon:'📅', nombre:'Plan de contenidos'},
+  {key:'parr',  icon:'🗂',  nombre:'Parrilla de contenidos'},
+  {key:'satis', icon:'⭐', nombre:'Satisfacción del cliente'},
+];
+
+let actividades = [];
+let marcaActual = null;
+let filtroActivo = 'vencidas';
+let wbrTabActual = 'meta';
+let filtroMes = '';
+let filtroAnio = '';
+
+// ── DEMO: genera actividades con toda la estructura SUPER_CONTROL ──
+function genDemo() {
+  const hoy = new Date();
+  const d = n => { const x=new Date(hoy); x.setDate(x.getDate()+n); x.setHours(0,0,0,0); return x; };
+  const acts = [];
+  let globalIdx = 0;
+  MARCAS.forEach((marca, mi) => {
+    ETAPAS_CONFIG.forEach((et, ei) => {
+      et.actividades.forEach((act, ai) => {
+        globalIdx++;
+        const daysOff = ((mi*7 + ei*3 + ai*2) % 20) - 8;
+        // Si no tiene "a" (req:false) → No requerida por default
+        const estadoDefault = !act.req ? 'No requerida' : (globalIdx % 5 === 0 ? 'Hecha' : globalIdx % 7 === 0 ? 'En proceso' : 'Planeada');
+        acts.push({
+          id: `${mi}-${ei}-${ai}`,
+          marca,
+          area: et.area,
+          etapa: et.nombre,
+          hito: act.hito,
+          tarea: act.hito,
+          descripcion: '',
+          responsable: RESPONSABLES[(mi + ai) % 5],
+          participacion: [RESPONSABLES[(mi + ei) % 5]],
+          respCliente: RESPONSABLES[(mi + ai + 1) % 5],
+          respMarca: RESPONSABLES[(mi + ei) % 5],
+          fecha: d(daysOff),
+          estado: estadoDefault,
+          notas: '',
+          linkMinuta: '',
+          req: act.req,
+        });
+      });
+    });
+  });
+  return acts;
+}
+
+function genWbr(plat, marca) {
+  if(plat==='tiktok' && ['Carvsa','Printbox','GeoCentra','FAM','POC'].indexOf(marca)>=0) return null;
+  const esMeta = plat==='meta';
+  const cols = esMeta
+    ? ['Leads','CPR','CPM','Importe','Alcance','Frecuencia','CTR','ROAS','ROI']
+    : ['Conversiones','CPR','CPM','Importe','CTR','Clics','CPC','ROAS','ROI'];
+  const mi = MARCAS.indexOf(marca);
+  const rows = MESES.map((mes,i) => {
+    if(i > 9) return {mes, vals: cols.map(()=>'—')};
+    const vals = [
+      String(80+i*12+mi*3),
+      `$${(12+i*1.4+mi*0.2).toFixed(2)}`,
+      `$${(28+i*0.9).toFixed(2)}`,
+      `$${(2400+i*220+mi*80).toFixed(0)}`,
+      esMeta ? String(45000+i*4000) : `${(2.8+i*0.15).toFixed(2)}%`,
+      esMeta ? (2.0+i*0.08).toFixed(2) : String(900+i*120),
+      esMeta ? `${(2.7+i*0.12).toFixed(2)}%` : `$${(1.8+i*0.2).toFixed(2)}`,
+      i<2 ? '0.00' : (6+i*0.8+mi*0.1).toFixed(2),
+      i<2 ? '0.00' : (1.1+i*0.3).toFixed(2),
+    ];
+    return {mes, vals};
+  });
+  return {cols, rows};
+}
+
+// ── UTILS ──
+function inicial(n){ return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+function clasificar(a) {
+  if(a.estado==='Hecha')        return 'hecha';
+  if(a.estado==='Cancelada')    return 'cancelada';
+  if(a.estado==='No requerida') return 'no_req';
+  if(!a.fecha) return 'futura';
+  const h=new Date(); h.setHours(0,0,0,0);
+  const f=new Date(a.fecha); f.setHours(0,0,0,0);
+  if(f.getTime()===h.getTime()) return 'hoy';
+  if(f<h) return 'vencida';
+  return 'futura';
+}
+function fmtFecha(d){ return new Date(d).toLocaleDateString('es-MX',{day:'numeric',month:'short'}); }
+function fmtFechaFull(d){ return new Date(d).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'}); }
+
+// ── DASHBOARD ──
+function renderDashboard() {
+  actividades = genDemo();
+  const hoy = new Date();
+  document.getElementById('fecha-hoy').textContent = hoy.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  let v=0,am=0,r=0;
+  actividades.forEach(a=>{ const t=clasificar(a); if(t==='hecha')v++; else if(t==='hoy')am++; else if(t==='vencida')r++; });
+  const tot=v+am+r||1;
+  ['verde','amarillo','rojo'].forEach((c,i)=>{
+    const n=[v,am,r][i];
+    document.getElementById('num-'+c).textContent=n;
+    document.getElementById('bar-'+c).style.width=(n/tot*100)+'%';
+  });
+  document.getElementById('total-acts').textContent=`${actividades.length} actividades totales`;
+
+  const grid=document.getElementById('marcas-grid');
+  grid.innerHTML='';
+  MARCAS.forEach(marca=>{
+    const acts=actividades.filter(a=>a.marca===marca);
+    const vv=acts.filter(a=>clasificar(a)==='hecha').length;
+    const aa=acts.filter(a=>clasificar(a)==='hoy').length;
+    const rr=acts.filter(a=>clasificar(a)==='vencida').length;
+    let dc='dot-verde'; if(rr>0)dc='dot-rojo'; else if(aa>0)dc='dot-amarillo';
+    const card=document.createElement('div');
+    card.className='marca-card';
+    card.innerHTML=`<div class="marca-card-top"><div class="marca-initial">${inicial(marca)}</div><div class="marca-dot ${dc}"></div></div><div class="marca-name">${marca}</div><div class="marca-mini-bar"><div class="mini-seg" style="background:var(--green);flex:${vv||0}"></div><div class="mini-seg" style="background:var(--yellow);flex:${aa||0}"></div><div class="mini-seg" style="background:var(--red);flex:${rr||0}"></div><div class="mini-seg" style="background:var(--bg4);flex:1"></div></div><div class="marca-counts"><span class="count-item"><span class="count-dot" style="background:var(--green)"></span>${vv} hechas</span><span class="count-item"><span class="count-dot" style="background:var(--yellow)"></span>${aa} hoy</span><span class="count-item"><span class="count-dot" style="background:var(--red)"></span>${rr} venc.</span></div>`;
+    card.onclick=()=>abrirMarca(marca);
+    grid.appendChild(card);
+  });
+  renderTabla();
+}
+
+function setFiltro(val,btn) {
+  filtroActivo=val;
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTabla();
+}
+
+function renderTabla() {
+  const body=document.getElementById('tabla-body');
+  let lista=actividades.map(a=>({...a,tipo:clasificar(a)})).filter(a=>{
+    if(filtroActivo==='vencidas') return a.tipo==='vencida';
+    if(filtroActivo==='hoy')      return a.tipo==='hoy';
+    if(filtroActivo==='hechas')   return a.tipo==='hecha';
+    if(filtroActivo==='futuras')  return a.tipo==='futura';
+    return true;
+  }).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  if(!lista.length){ body.innerHTML=`<tr><td colspan="5"><div class="empty-state">Sin actividades en esta categoría 🎉</div></td></tr>`; return; }
+  body.innerHTML=lista.map(a=>{
+    const badge=a.tipo==='vencida'?`<span class="badge badge-vencida">● Vencida</span>`:a.tipo==='hoy'?`<span class="badge badge-hoy">● Hoy</span>`:`<span class="badge badge-hecha">✓ Realizada</span>`;
+    return `<tr><td>${badge}</td><td><span class="marca-chip" style="cursor:pointer" onclick="abrirMarca('${a.marca}')">${a.marca}</span></td><td>${a.tarea}</td><td style="color:var(--text2)">${a.responsable}</td><td style="color:var(--text3)">${fmtFecha(a.fecha)}</td></tr>`;
+  }).join('');
+}
+
+// ── VISTA MARCA ──
+function abrirMarca(nombre) {
+  marcaActual=nombre;
+  navegarSeccion('sec-wbr');
+  const hoy=new Date();
+  document.getElementById('wbr-initial').textContent=inicial(nombre);
+  document.getElementById('wbr-nombre').textContent=nombre;
+  document.getElementById('wbr-fecha').textContent=hoy.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const mi=MARCAS.indexOf(nombre);
+  const etapaIdx=mi%ETAPAS_CONFIG.length;
+  document.getElementById('wbr-etapa').textContent=ETAPAS_CONFIG[etapaIdx].nombre;
+  const actsM=actividades.filter(a=>a.marca===nombre);
+  const pend=actsM.filter(a=>clasificar(a)==='vencida'||clasificar(a)==='hoy').length;
+  const dot=document.getElementById('wbr-dot');
+  const actsVenc=actsM.filter(a=>clasificar(a)==='vencida').length;
+  dot.style.background = actsVenc>0 ? 'var(--red)' : pend>0 ? 'var(--yellow)' : 'var(--green)';
+  document.getElementById('wbr-estado-txt').textContent = pend ? `${pend} actividad${pend>1?'es':''} urgente${pend>1?'s':''}` : 'Al día ✓';
+  renderDocs(nombre);
+  renderAcordeon(nombre);
+}
+
+function getDocLinks(nombre) {
+  const saved = localStorage.getItem('doclinks_' + nombre);
+  return saved ? JSON.parse(saved) : {};
+}
+function saveDocLink(nombre, key, url) {
+  const links = getDocLinks(nombre);
+  links[key] = url;
+  localStorage.setItem('doclinks_' + nombre, JSON.stringify(links));
+}
+function removeDocLink(nombre, key) {
+  const links = getDocLinks(nombre);
+  delete links[key];
+  localStorage.setItem('doclinks_' + nombre, JSON.stringify(links));
+}
+
+function renderDocs(nombre) {
+  const links = getDocLinks(nombre);
+  document.getElementById('wbr-docs').innerHTML = DOCS_CLAVE.map(doc => {
+    const url = links[doc.key] || null;
+    return `<div class="doc-card${url ? ' tiene-link' : ''}">
+      <div class="doc-top">
+        <span class="doc-icon">${doc.icon}</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          ${url ? `<span class="doc-ext" style="cursor:pointer" onclick="window.open('${url}','_blank')">↗ Abrir</span>` : `<span class="doc-ext-off">Sin link</span>`}
+          <span class="edit-doc-btn" onclick="editDocLink('${nombre}','${doc.key}','${doc.nombre}')" title="Editar link">✏️</span>
+        </div>
+      </div>
+      <div class="doc-name">${doc.nombre}</div>
+      ${url ? `<div class="doc-ok">✓ Disponible</div>` : `<div class="doc-off">Pendiente de agregar</div>`}
+    </div>`;
+  }).join('');
+}
+
+function editDocLink(nombre, key, docNombre) {
+  const links = getDocLinks(nombre);
+  const actual = links[key] || '';
+  // mini modal inline
+  const overlay = document.getElementById('modal-overlay');
+  const modal = overlay.querySelector('.modal');
+  modal.innerHTML = `
+    <div class="modal-title">Link de "${docNombre}"</div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>URL del documento (Google Drive, Sheets, Docs...)</label>
+      <input type="text" id="doc-link-input" value="${actual}" placeholder="https://docs.google.com/...">
+    </div>
+    <div class="modal-actions">
+      ${actual ? `<button class="btn-cancel" style="color:var(--red);border-color:var(--red-border);" onclick="quitarDocLink('${nombre}','${key}')">Quitar link</button>` : ''}
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-save" onclick="guardarDocLink('${nombre}','${key}')">Guardar</button>
+    </div>`;
+  overlay.classList.add('open');
+}
+
+function guardarDocLink(nombre, key) {
+  const url = document.getElementById('doc-link-input').value.trim();
+  if(url) saveDocLink(nombre, key, url);
+  cerrarModal();
+  renderDocs(nombre);
+}
+
+function quitarDocLink(nombre, key) {
+  removeDocLink(nombre, key);
+  cerrarModal();
+  renderDocs(nombre);
+}
+
+
+// ── ACORDEÓN ──
+function renderAcordeon(nombre) {
+  const wrap=document.getElementById('acordeon-wrap');
+
+  const secciones = [
+    {
+      id:'actividades', icon:'✅', title:'Actividades del proyecto',
+      sub:'Etapas, hitos y checklist completo',
+      tag: actividades.filter(a=>a.marca===nombre).length + ' actividades',
+      render: (el) => renderActividadesPanel(el, nombre)
+    },
+    {
+      id:'kpis', icon:'📊', title:'KPIs generales del año',
+      sub:'ROAS, ROI e inversión acumulada',
+      tag:'4 métricas',
+      render: (el) => renderKpisPanel(el, nombre)
+    },
+    {
+      id:'meta', icon:'📘', title:'WBR Meta Ads',
+      sub:'Historial mensual de campañas Meta',
+      tag:'12 meses',
+      render: (el) => renderWbrPanel(el, 'meta', nombre)
+    },
+    {
+      id:'google', icon:'🔍', title:'WBR Google Ads',
+      sub:'Conversiones, CTR, CPC y más',
+      tag:'12 meses',
+      render: (el) => renderWbrPanel(el, 'google', nombre)
+    },
+    {
+      id:'tiktok', icon:'🎵', title:'WBR TikTok Ads',
+      sub:'Campañas y métricas de TikTok',
+      tag:'opcional',
+      render: (el) => renderWbrPanel(el, 'tiktok', nombre)
+    },
+  ];
+
+  wrap.innerHTML = secciones.map(s=>`
+    <div class="acord-bloque" id="acord-${s.id}">
+      <div class="acord-trigger" onclick="toggleAcord('${s.id}','${nombre}')">
+        <div class="acord-trigger-left">
+          <div class="acord-icon">${s.icon}</div>
+          <div>
+            <div class="acord-title">${s.title}</div>
+            <div class="acord-sub">${s.sub}</div>
+          </div>
+        </div>
+        <div class="acord-right">
+          <span class="acord-tag">${s.tag}</span>
+          <span class="acord-arrow">▾</span>
+        </div>
+      </div>
+      <div class="acord-body">
+        <div class="acord-inner">
+          <div class="acord-content" id="acord-content-${s.id}"></div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // guardar renders para llamar al abrir
+  wrap._secciones = secciones;
+}
+
+function toggleAcord(id, nombre) {
+  const bloque=document.getElementById('acord-'+id);
+  const wasOpen=bloque.classList.contains('open');
+  bloque.classList.toggle('open');
+  if(!wasOpen) {
+    const content=document.getElementById('acord-content-'+id);
+    if(!content.dataset.rendered) {
+      const sec=document.getElementById('acordeon-wrap')._secciones.find(s=>s.id===id);
+      if(sec) { sec.render(content); content.dataset.rendered='1'; }
+    }
+  }
+}
+
+// ── PANEL KPIs ──
+function renderKpisPanel(el, nombre) {
+  const mi=MARCAS.indexOf(nombre);
+  const kpis=[
+    {label:'ROAS anual Meta',    val:(8.4+mi*0.3).toFixed(2), delta:'↑ +1.2',  pos:true,  plat:'Meta Ads'},
+    {label:'ROI anual Meta',     val:(3.1+mi*0.2).toFixed(2), delta:'↑ +0.4',  pos:true,  plat:'Meta Ads'},
+    {label:'ROAS Google Ads',    val:mi%4===0?'N/A':(12.6+mi*0.5).toFixed(2), delta:'↓ -0.8', pos:false, plat:'Google Ads'},
+    {label:'Inversión total',    val:`$${((28+mi*2)*1000).toLocaleString()}`,  delta:'↑ +$2,400', pos:true, plat:'Todas las plataformas'},
+  ];
+  el.innerHTML=`<div class="acord-content-pad"><div class="kpi-row">${kpis.map(k=>`<div class="kpi-card"><div class="kpi-label">${k.label}</div><div class="kpi-val">${k.val}</div><div class="kpi-delta ${k.pos?'delta-pos':'delta-neg'}">${k.delta} vs mes ant.</div><div class="kpi-plat">${k.plat}</div></div>`).join('')}</div></div>`;
+}
+
+// ── PANEL WBR ──
+function renderWbrPanel(el, plat, nombre) {
+  const data=genWbr(plat,nombre);
+  if(!data){ el.innerHTML=`<div class="acord-content-pad"><div class="wbr-no-data">Esta marca no tiene reporte de <strong>TikTok Ads</strong> activo.</div></div>`; return; }
+  const totales=data.cols.map((_,ci)=>{
+    const vals=data.rows.map(r=>parseFloat(r.vals[ci]?.replace(/[$,%]/g,'')||0)).filter(v=>!isNaN(v));
+    const s=vals.reduce((a,b)=>a+b,0);
+    return s?(Number.isInteger(s)?s:s.toFixed(2)):'—';
+  });
+  el.innerHTML=`<div class="acord-content-pad"><div class="wbr-table-wrap"><table class="wbr-table"><thead><tr><th>Mes</th>${data.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${data.rows.map(r=>`<tr><td>${r.mes}</td>${r.vals.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}<tr><td>Total / Prom.</td>${totales.map(t=>`<td>${t}</td>`).join('')}</tr></tbody></table></div></div>`;
+}
+
+// ── PANEL ACTIVIDADES ──
+function renderActividadesPanel(el, nombre) {
+  const actsM = actividades.filter(a=>a.marca===nombre);
+  const anios = [...new Set(actsM.map(a=>new Date(a.fecha).getFullYear()))].sort();
+  el.innerHTML=`<div class="acord-content-pad">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+      <select class="act-select" id="filtro-mes-marca" onchange="filtrarActsMarca('${nombre}')">
+        <option value="">Todos los meses</option>
+        ${MESES.map((m,i)=>`<option value="${i}">${m}</option>`).join('')}
+      </select>
+      <select class="act-select" id="filtro-anio-marca" onchange="filtrarActsMarca('${nombre}')">
+        <option value="">Todos los años</option>
+        ${anios.map(a=>`<option value="${a}">${a}</option>`).join('')}
+      </select>
+      <select class="act-select" id="filtro-etapa-marca" onchange="filtrarActsMarca('${nombre}')">
+        <option value="">Todas las etapas</option>
+        ${ETAPAS_CONFIG.map(e=>`<option value="${e.nombre}">${e.nombre}</option>`).join('')}
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;">
+      <select class="act-select" id="filtro-resp-nuwek" onchange="filtrarActsMarca('${nombre}')">
+        <option value="">Todos los resp. Nuwek</option>
+        ${RESPONSABLES.map(r=>`<option value="${r}">${r}</option>`).join('')}
+      </select>
+      <select class="act-select" id="filtro-resp-cliente" onchange="filtrarActsMarca('${nombre}')">
+        <option value="">Todos los resp. cliente</option>
+        ${RESPONSABLES.map(r=>`<option value="${r}">${r}</option>`).join('')}
+      </select>
+      <button class="add-act-btn" onclick="abrirModal('${nombre}')">+ Nueva actividad</button>
+    </div>
+    <div id="acts-tabla-wrap-${nombre.replace(/\s/g,'_')}">
+      ${buildActsTabla(actsM)}
+    </div>
+  </div>`;
+}
+
+function buildActsTabla(lista) {
+  if(!lista.length) return `<div class="empty-state">Sin actividades para este filtro.</div>`;
+
+  const estadoStyle = {
+    'Hecha':        { color:'var(--green)',  dot:'var(--green)'  },
+    'En proceso':   { color:'var(--accent)', dot:'var(--accent)' },
+    'Planeada':     { color:'var(--text3)',  dot:'var(--text3)'  },
+    'No requerida': { color:'var(--text3)',  dot:'var(--bg4)'    },
+    'Cancelada':    { color:'var(--text3)',  dot:'var(--text3)'  },
+  };
+
+  return `<div class="act-tabla-wrap"><table class="act-tabla">
+    <thead><tr>
+      <th>✓</th><th>Etapa</th><th>Actividad</th>
+      <th>Resp. Nuwek</th><th>Resp. cliente</th><th>Fecha</th><th>Estado</th><th></th>
+    </tr></thead>
+    <tbody>${lista.map(a => {
+      const tipo = clasificar(a);
+      const fc   = tipo==='vencida'?'fecha-vencida':tipo==='hoy'?'fecha-hoy':'fecha-ok';
+      const st   = estadoStyle[a.estado] || estadoStyle['Planeada'];
+      const noReq = a.estado==='No requerida';
+      const hecha = a.estado==='Hecha';
+      const fechaTxt = a.fecha ? fmtFechaFull(a.fecha) : '—';
+      const minuta = a.linkMinuta ? `<a href="${a.linkMinuta}" target="_blank" style="font-size:0.68rem;color:var(--accent);margin-left:4px;">📎</a>` : '';
+      const onclickCheck = noReq ? '' : `onclick="toggleActCheck('${a.id}',this)"`;
+      return `<tr style="${noReq?'opacity:0.45':''}">
+        <td><div class="check-box${hecha?' checked':''}"
+          style="${noReq?'cursor:not-allowed':'cursor:pointer'}"
+          ${onclickCheck}></div></td>
+        <td><span class="etapa-pill">${a.etapa}</span></td>
+        <td style="font-size:0.82rem;max-width:200px">${a.tarea}${minuta}</td>
+        <td style="font-size:0.78rem;color:var(--text2)">${a.responsable||'—'}</td>
+        <td style="font-size:0.78rem;color:var(--text2)">${a.respMarca||'—'}</td>
+        <td><span class="fecha-chip ${noReq?'fecha-ok':fc}">${fechaTxt}</span></td>
+        <td><span style="display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;color:${st.color}">
+          <span style="width:7px;height:7px;border-radius:50%;background:${st.dot};display:inline-block;border:${noReq?'1px dashed var(--text3)':'none'}"></span>
+          ${a.estado}
+        </span></td>
+        <td><button class="edit-btn" onclick="editarActividad('${a.id}')">Editar</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div>`;
+}
+
+function filtrarActsMarca(nombre) {
+  const mes         = document.getElementById('filtro-mes-marca')?.value;
+  const anio        = document.getElementById('filtro-anio-marca')?.value;
+  const etapa       = document.getElementById('filtro-etapa-marca')?.value;
+  const respNuwek   = document.getElementById('filtro-resp-nuwek')?.value;
+  const respCliente = document.getElementById('filtro-resp-cliente')?.value;
+  let lista = actividades.filter(a => a.marca === nombre);
+  if(mes !== '')         lista = lista.filter(a => a.fecha && new Date(a.fecha).getMonth() === parseInt(mes));
+  if(anio !== '')        lista = lista.filter(a => a.fecha && new Date(a.fecha).getFullYear() === parseInt(anio));
+  if(etapa !== '')       lista = lista.filter(a => a.etapa === etapa);
+  if(respNuwek !== '')   lista = lista.filter(a => a.responsable === respNuwek);
+  if(respCliente !== '') lista = lista.filter(a => a.respMarca === respCliente);
+  const key = nombre.replace(/\s/g,'_');
+  const wrap = document.getElementById(`acts-tabla-wrap-${key}`);
+  if(wrap) wrap.innerHTML = buildActsTabla(lista);
+}
+
+function toggleActCheck(id, el) {
+  const act = actividades.find(a => a.id === id);
+  if(!act || act.estado === 'No requerida') return;
+  act.estado = act.estado === 'Hecha' ? 'Planeada' : 'Hecha';
+  filtrarActsMarca(marcaActual);
+}
+
+// ── MODAL ──
+let editandoId = null;
+
+function buildPartChips(act) {
+  const respActual = act ? act.responsable : '';
+  return PARTICIPANTES
+    .filter(p => p !== respActual)
+    .map(p => {
+      const sel = act && act.participacion && act.participacion.includes(p);
+      const bg  = sel ? 'var(--accent)' : 'var(--bg4)';
+      const col = sel ? '#fff' : 'var(--text2)';
+      const chk = sel ? 'checked' : '';
+      return '<label style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;background:' + bg + ';color:' + col + ';font-size:0.75rem;cursor:pointer;transition:all 0.15s;user-select:none;">'
+        + '<input type="checkbox" value="' + p + '" ' + chk + ' style="display:none;" onchange="togglePartChip(this)">'
+        + p + '</label>';
+    }).join('');
+}
+
+function buildModalHTML(act) {
+  const etapasOpts = ETAPAS_CONFIG.map(e =>
+    `<option value="${e.nombre}"${act && act.etapa===e.nombre?' selected':''}>${e.area==='comercial'?'[C] ':'[O] '}${e.nombre}</option>`
+  ).join('');
+
+  // hitos de la etapa seleccionada
+  const etapaActual = act ? ETAPAS_CONFIG.find(e=>e.nombre===act.etapa) : ETAPAS_CONFIG[0];
+  const hitosOpts = etapaActual
+    ? etapaActual.actividades.map(a => `<option value="${a.hito}"${act && act.hito===a.hito?' selected':''}>${a.hito}</option>`).join('')
+    : '';
+
+  const respOpts  = RESPONSABLES.map(r => `<option value="${r}"${act && act.responsable===r?' selected':''}>${r}</option>`).join('');
+  const respMOpts = RESPONSABLES.map(r => `<option value="${r}"${act && act.respMarca===r?' selected':''}>${r}</option>`).join('');
+  const estadoOpts = ESTADOS_ACT.map(s => `<option value="${s}"${act && act.estado===s?' selected':''}>${s}</option>`).join('');
+
+  // participacion múltiple
+  const partOpts = PARTICIPANTES.map(p => {
+    const sel = act && act.participacion && act.participacion.includes(p) ? 'selected' : '';
+    return `<option value="${p}" ${sel}>${p}</option>`;
+  }).join('');
+
+  const fechaVal = act && act.fecha ? new Date(act.fecha).toISOString().split('T')[0] : '';
+  const isNew = !act;
+
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div class="modal-title" style="margin:0;">${isNew ? 'Nueva actividad' : 'Editar actividad'}</div>
+      <button onclick="cerrarModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text3);line-height:1;">✕</button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Área</label>
+        <select id="m-area" onchange="syncHitosFromArea()">
+          <option value="comercial"${act && act.area==='comercial'?' selected':''}>Comercial</option>
+          <option value="operativa"${act && act.area==='operativa'?' selected':''}>Operativa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cliente</label>
+        <select id="m-cliente">
+          ${MARCAS.map(m=>`<option value="${m}"${act && act.marca===m?' selected':''}>${m}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Etapa</label>
+        <select id="m-etapa" onchange="syncHitosModal()">${etapasOpts}</select>
+      </div>
+      <div class="form-group">
+        <label>Actividad</label>
+        <select id="m-hito">${hitosOpts}</select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Descripción</label>
+        <textarea id="m-descripcion" rows="2" placeholder="Detalle adicional de la actividad...">${act ? (act.descripcion||'') : ''}</textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Responsable Nuwek</label>
+        <select id="m-responsable">${respOpts}</select>
+      </div>
+      <div class="form-group">
+        <label>Responsable cliente</label>
+        <select id="m-resp-marca">${respMOpts}</select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Participación Nuwek <span style="font-weight:400;color:var(--text3)">(selecciona varios)</span></label>
+        <div id="m-participacion-wrap" style="display:flex;flex-wrap:wrap;gap:6px;padding:10px;border:1px solid var(--border2);border-radius:8px;background:var(--bg3);min-height:42px;">
+          ${buildPartChips(act)}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha límite</label>
+        <input type="date" id="m-fecha" value="${fechaVal}">
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select id="m-estado">${estadoOpts}</select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Notas adicionales</label>
+        <textarea id="m-notas" rows="2" placeholder="Observaciones, contexto...">${act ? (act.notas||'') : ''}</textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Link de minuta</label>
+        <input type="text" id="m-minuta" placeholder="https://docs.google.com/..." value="${act ? (act.linkMinuta||'') : ''}">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-save" onclick="guardarActividad()">Guardar actividad</button>
+    </div>`;
+}
+
+function syncHitosModal() {
+  const etapaNombre = document.getElementById('m-etapa')?.value;
+  const etapa = ETAPAS_CONFIG.find(e => e.nombre === etapaNombre);
+  const sel = document.getElementById('m-hito');
+  if(!sel || !etapa) return;
+  sel.innerHTML = etapa.actividades.map(a => `<option value="${a.hito}">${a.hito}</option>`).join('');
+}
+
+function syncHitosFromArea() {
+  const area = document.getElementById('m-area')?.value;
+  const etapaSel = document.getElementById('m-etapa');
+  if(!etapaSel) return;
+  etapaSel.innerHTML = ETAPAS_CONFIG
+    .filter(e => e.area === area)
+    .map(e => `<option value="${e.nombre}">${e.nombre}</option>`).join('');
+  syncHitosModal();
+}
+
+function abrirModal(marca) {
+  editandoId = null;
+  document.getElementById('modal-inner').innerHTML = buildModalHTML(null);
+  // preselect marca
+  const mSel = document.getElementById('m-cliente');
+  if(mSel && marca) mSel.value = marca;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function editarActividad(id) {
+  const act = actividades.find(a => a.id === id);
+  if(!act) return;
+  editandoId = id;
+  document.getElementById('modal-inner').innerHTML = buildModalHTML(act);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function cerrarModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+function togglePartChip(input) {
+  const label = input.closest('label');
+  if(input.checked) {
+    label.style.background = 'var(--accent)';
+    label.style.color = '#fff';
+  } else {
+    label.style.background = 'var(--bg4)';
+    label.style.color = 'var(--text2)';
+  }
+}
+
+function guardarActividad() {
+  const fechaStr = document.getElementById('m-fecha').value;
+  const part = Array.from(document.querySelectorAll('#m-participacion-wrap input[type=checkbox]:checked')).map(i=>i.value);
+  const act = {
+    area:         document.getElementById('m-area').value,
+    marca:        document.getElementById('m-cliente').value,
+    etapa:        document.getElementById('m-etapa').value,
+    hito:         document.getElementById('m-hito').value,
+    tarea:        document.getElementById('m-hito').value,
+    descripcion:  document.getElementById('m-descripcion').value,
+    responsable:  document.getElementById('m-responsable').value,
+    participacion: part,
+    respMarca:    document.getElementById('m-resp-marca').value,
+    fecha:        fechaStr ? new Date(fechaStr + 'T12:00:00') : null,
+    estado:       document.getElementById('m-estado').value,
+    notas:        document.getElementById('m-notas').value,
+    linkMinuta:   document.getElementById('m-minuta').value,
+  };
+  if(editandoId) {
+    const idx = actividades.findIndex(a => a.id === editandoId);
+    if(idx >= 0) actividades[idx] = { ...actividades[idx], ...act };
+  } else {
+    act.id = 'new-' + Date.now();
+    actividades.push(act);
+  }
+  cerrarModal();
+  const content = document.getElementById('acord-content-actividades');
+  if(content) { content.removeAttribute('data-rendered'); content.innerHTML=''; renderActividadesPanel(content, marcaActual); content.dataset.rendered='1'; }
+}
+
+// ── NAVEGACIÓN ──
+const NAV=[{id:'sec-dashboard',icon:'◈',label:'Dashboard'},{id:'sec-wbr',icon:'◉',label:'WBR por Marca'}];
+function renderNav(items){
+  const nav=document.getElementById('sidebar-nav'); nav.innerHTML='';
+  items.forEach(item=>{const el=document.createElement('div');el.className='nav-item'+(item.id==='sec-dashboard'?' active':'');el.dataset.sec=item.id;el.innerHTML=`<span class="nav-icon">${item.icon}</span>${item.label}`;el.onclick=()=>navegarSeccion(item.id);nav.appendChild(el);});
+}
+function navegarSeccion(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const sec=document.getElementById(id); if(sec)sec.classList.add('active');
+  const nav=document.querySelector(`[data-sec="${id}"]`); if(nav)nav.classList.add('active');
+}
+function irA(modo){
+  document.getElementById('portada').style.display='none';
+  document.getElementById('app').style.display='block';
+  if(modo==='seguimientos'){document.getElementById('mode-badge').textContent='Marketing';renderNav(NAV);renderDashboard();}
+}
+function volverPortada(){document.getElementById('portada').style.display='flex';document.getElementById('app').style.display='none';}
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)cerrarModal();});
+
+// Reloj portada
+function tickClock() {
+  const el = document.getElementById('portada-clock');
+  if(!el) return;
+  const now = new Date();
+  const fecha = now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const hora  = now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  el.textContent = fecha + ' · ' + hora;
+}
+tickClock();
+setInterval(tickClock, 1000);
+</script>
+</body>
+</html>
